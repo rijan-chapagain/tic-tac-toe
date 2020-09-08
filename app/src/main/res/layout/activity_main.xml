@@ -41,7 +41,7 @@
         android:layout_marginEnd="41dp"
         android:layout_marginBottom="267dp"
         android:layout_weight="1"
-        android:text="Play with Human"
+        android:text="Play with computer"
         android:textSize="20sp" />
 
 </RelativeLayout>
