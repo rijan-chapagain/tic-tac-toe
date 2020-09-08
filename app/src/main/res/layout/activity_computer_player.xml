@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view"
             android:freezesText="true"
-            android:text="Current Status: Player1's Turn [X]"
+            android:text="Next Turn: Player1's Turn [X]"
             android:textSize="20sp" />
 
         <TextView
