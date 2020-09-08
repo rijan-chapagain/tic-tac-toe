@@ -11,7 +11,6 @@ public class MainActivity extends AppCompatActivity {
     private Button playWithComputer;
     private Button playWithHuman;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
