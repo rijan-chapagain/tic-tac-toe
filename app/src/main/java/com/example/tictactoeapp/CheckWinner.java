@@ -8,7 +8,10 @@ import android.widget.Button;
 public class CheckWinner extends AppCompatActivity {
 
     protected boolean isGameWon(int boardCols, int boardRows, String [][] field) {
-        if(boardCols == 3){
+        System.out.println(boardRows);
+
+        if(boardCols == 3 && boardRows == 3){
+            System.out.println(boardRows);
             // compare fields to eachother in columns
             for (int i = 0; i < boardCols; i++) {
                 if (field[i][0].equals(field[i][1])
@@ -45,6 +48,7 @@ public class CheckWinner extends AppCompatActivity {
 
         else{
             // compare fields to eachother in columns
+            System.out.println(boardRows);
             for (int i = 0; i < boardCols; i++) {
                 if (field[i][0].equals(field[i][1])
                         && field[i][0].equals(field[i][2])
