@@ -3,6 +3,7 @@ package com.example.tictactoeapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,8 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
 
+    private int orientation;
+
     CheckWinner winner = new CheckWinner();
 
     @Override
@@ -47,14 +50,9 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         textViewPlayer1 = findViewById(R.id.text_view_p1);
         textViewPlayer2 = findViewById(R.id.text_view_p2);
 
-        for (int i=0; i < boardCols; i++){
-            for (int j=0; j < boardRows; j++){
-                String buttonID = "button_" + i + j;
-                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
-                buttons[i][j] = findViewById(resID);
-                buttons[i][j].setOnClickListener(this);
-            }
-        }
+        printBoard();
+
+        int orientation = getResources().getConfiguration().orientation;
 
         Button buttonReset = findViewById(R.id.button_reset);
         buttonReset.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +61,19 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
                 resetGame();
             }
         });
+
+    }
+
+    public void printBoard(){
+        for (int i=0; i < boardCols; i++){
+            for (int j=0; j < boardRows; j++){
+                String buttonID = "button_" + i + j;
+                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
+
+                buttons[i][j] = findViewById(resID);
+                buttons[i][j].setOnClickListener(this);
+            }
+        }
     }
 
     public void backToHome() {
@@ -87,14 +98,17 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
 
         roundCount++;
 
-        String[][] field = new String [boardCols][boardRows];
-        for (int i=0; i < boardCols; i++) {
-            for (int j=0; j < boardRows; j++){
-                field[i][j] = buttons[i][j].getText().toString();
-            }
-        }
+//        String[][] field = new String [boardCols][boardRows];
+//        System.out.println("Cols:  " +boardCols+ " Rows:  "+ boardRows);
+//        for (int i=0; i < boardCols; i++) {
+//            for (int j=0; j < boardRows; j++){
+//                System.out.println(i +"  ij  "+ j);
+//                field[i][j] = buttons[i][j].getText().toString();
+//            }
+//        }
 
-        if (winner.isGameWon(boardCols, boardRows, field)) {
+//        if (winner.isGameWon(boardCols, boardRows, field)) {
+        if(checkWinner()){
             if(isPlayer1Next) {
                 winnerIsPlayer1();
             }
@@ -110,6 +124,104 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         }
         updateMessageText();
     }
+
+    private boolean checkWinner(){
+        printBoard();
+
+        String[][] field = new String [boardCols][boardRows];
+        System.out.println("Cols:  " +boardCols+ " Rows:  "+ boardRows);
+        for (int i=0; i < boardCols; i++) {
+            for (int j=0; j < boardRows; j++){
+                System.out.println(i +"  ij  "+ j);
+                field[i][j] = buttons[i][j].getText().toString();
+            }
+        }
+
+        if(boardCols == 3 && boardRows == 3){
+            System.out.println(boardRows);
+            // compare fields to eachother in columns
+            for (int i = 0; i < boardCols; i++) {
+                if (field[i][0].equals(field[i][1])
+                        && field[i][0].equals(field[i][2])
+                        && !field[i][0].equals("")) {
+                    return true;
+                }
+            }
+
+            // compare fields to eachother in rows
+            for (int i = 0; i < boardRows; i++) {
+                if (field[0][i].equals(field[1][i])
+                        && field[0][i].equals(field[2][i])
+                        && !field[0][i].equals("")) {
+                    return true;
+                }
+            }
+
+            // Compare diogonal
+            if (field[0][0].equals(field[1][1])
+                    && field[0][0].equals(field[2][2])
+                    && !field[0][0].equals("")) {
+                return true;
+            }
+
+            // Compare diogonal
+            if (field[0][2].equals(field[1][1])
+                    && field[0][2].equals(field[2][0])
+                    && !field[0][2].equals("")) {
+                return true;
+            }
+            return false;
+        }
+
+        else{
+            // compare fields to eachother in columns
+            System.out.println(boardRows);
+            for (int i = 0; i < boardCols; i++) {
+                if (field[i][0].equals(field[i][1])
+                        && field[i][0].equals(field[i][2])
+                        && !field[i][0].equals("")
+                        && (field[i][0].equals(field[i][3])
+                        && field[i][0].equals(field[i][4]))
+                ) {
+                    return true;
+                }
+            }
+
+            // compare fields to eachother in rows
+            for (int i = 0; i < boardRows; i++) {
+                if (field[0][i].equals(field[1][i])
+                        && field[0][i].equals(field[2][i])
+                        && !field[0][i].equals("")
+                        && field[0][i].equals(field[3][i])
+                        && field[0][i].equals(field[4][i])
+                ) {
+                    return true;
+                }
+            }
+
+            // Compare diogonal
+            if (field[0][0].equals(field[1][1])
+                    && field[0][0].equals(field[2][2])
+                    && !field[0][0].equals("")
+                    && field[0][0].equals(field[3][3])
+                    && field[0][0].equals(field[4][4])
+            ) {
+                return true;
+            }
+
+            // Compare diogonal
+            if (field[0][4].equals(field[1][3])
+                    && field[0][4].equals(field[2][2])
+                    && !field[0][4].equals("")
+                    && field[0][4].equals(field[3][1])
+                    && field[0][4].equals(field[4][0])
+            ) {
+                return true;
+            }
+            return false;
+        }
+    }
+
 
     private void winnerIsPlayer1() {
         Toast.makeText(this, "Player 1 Wins!", Toast.LENGTH_SHORT).show();
@@ -166,12 +278,21 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        System.out.println("orientation:   "+orientation);
 
         outState.putInt("roundCount", 0);
-        outState.putInt("player1Points", 0);
+        outState.putInt("player1Points", 6);
         outState.putInt("player2Points", 0);
-        outState.putInt("boardCols", boardCols=5);
         outState.putBoolean("player1Turn", isPlayer1Next);
+
+        if(orientation == 2) {
+            outState.putInt("boardCols", boardCols = 3);
+            outState.putInt("boardRows", boardRows = 3);
+        }
+        else {
+            outState.putInt("boardCols", boardCols = 5);
+            outState.putInt("boardRows", boardRows = 5);
+        }
     }
 
     @Override
@@ -182,6 +303,7 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         player1Points = savedInstanceState.getInt("player1Points");
         player2Points = savedInstanceState.getInt("player2Points");
         boardCols = savedInstanceState.getInt("boardCols");
+        boardRows = savedInstanceState.getInt("boardRows");
         isPlayer1Next = savedInstanceState.getBoolean("player1Turn");
     }
 }
