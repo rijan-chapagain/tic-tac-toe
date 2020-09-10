@@ -32,10 +32,6 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
     Utilities util = new Utilities();
     CheckWinner winner = new CheckWinner();
 
-
-
-//    private int moveR[];
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,16 +57,9 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
                 int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
                 buttons[i][j] = findViewById(resID);
                 buttons[i][j].setOnClickListener(this);
-//                System.out.println("Inside nested for loop:  "  + availableCells[i][j]);
-
-                if((buttons[i][j].getText().toString().isEmpty())){
-                    availableCells[i][j] = true;
-                }
-                else{
-                    availableCells[i][j] = false;
-                }
             }
         }
+        checkAvailableCells();
 
         Button buttonReset = findViewById(R.id.button_reset);
         buttonReset.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +70,17 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    public void checkAvailableCells(){
+        for (int i=0; i < boardCols; i++){
+            for (int j=0; j < boardRows; j++) {
+                if ((buttons[i][j].getText().toString().isEmpty())) {
+                    availableCells[i][j] = true;
+                } else {
+                    availableCells[i][j] = false;
+                }
+            }
+        }
+    }
     public void backToHome() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -94,12 +94,13 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
+        checkAvailableCells();
         if (isPlayer1Next) {
             ((Button) view).setText("X");
         }
         else {
-            util.randomIndex(boardCols, boardRows, availableCells);
-            buttons[rd.nextInt(boardCols)][rd.nextInt(boardRows)].setText("O");
+            int[] arr = util.ramdomIndex(boardCols, boardRows, availableCells);
+            buttons[arr[0]][arr[1]].setText("O");
         }
 
         roundCount++;
@@ -125,11 +126,6 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
             isPlayer1Next = !isPlayer1Next;
         }
         updateMessageText();
-//            wait(2000);
-//        if (!isPlayer1Next) {
-//            System.out.println("Random   " +  rd.nextInt(boardCols) + "   Rows:  " +  rd.nextInt(boardRows));
-//            buttons[rd.nextInt(boardCols)][rd.nextInt(boardRows)].setText("O");
-//        }
     }
 
     private void winnerIsPlayer1() {
