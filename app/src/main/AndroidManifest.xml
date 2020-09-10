@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HumanPlayer"></activity>
+        <activity android:name=".CheckWinner"></activity>
+        <activity android:name=".HandlePlayer" />
+        <activity android:name=".HumanPlayer" />
         <activity android:name=".ComputerPlayer" />
         <activity android:name=".MainActivity">
             <intent-filter>

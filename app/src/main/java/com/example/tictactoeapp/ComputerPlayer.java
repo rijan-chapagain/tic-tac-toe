@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class ComputerPlayer extends AppCompatActivity implements View.OnClickListener {
-    private Button computer_back_button;
+    private Button back_button;
     private int boardCols = 3;
     private int boardRows = boardCols;
     private Button[][] buttons = new Button[boardCols][boardRows];
@@ -25,14 +27,23 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
 
+    private boolean availableCells[][] = new boolean[3][3];
+
+    Utilities util = new Utilities();
+    CheckWinner winner = new CheckWinner();
+
+
+
+//    private int moveR[];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_computer_player);
 
         // back to home button handler
-        computer_back_button = (Button) findViewById(R.id.computer_back_button);
-        computer_back_button.setOnClickListener(new View.OnClickListener() {
+        back_button = (Button) findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 backToHome();
@@ -50,6 +61,14 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
                 int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
                 buttons[i][j] = findViewById(resID);
                 buttons[i][j].setOnClickListener(this);
+//                System.out.println("Inside nested for loop:  "  + availableCells[i][j]);
+
+                if((buttons[i][j].getText().toString().isEmpty())){
+                    availableCells[i][j] = true;
+                }
+                else{
+                    availableCells[i][j] = false;
+                }
             }
         }
 
@@ -69,25 +88,29 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
+
         if (!((Button) view).getText().toString().equals("")) {
             Toast.makeText(this, "Already Filled!", Toast.LENGTH_SHORT).show();
-
             return;
         }
-//        game.checkClickedField(view);
-//        game.setPlayersTurn(view);
-        // set players turns
 
         if (isPlayer1Next) {
             ((Button) view).setText("X");
         }
-//        else {
-//            ((Button) view).setText("O");
-//        }
+        else {
+            util.randomIndex(boardCols, boardRows, availableCells);
+            buttons[rd.nextInt(boardCols)][rd.nextInt(boardRows)].setText("O");
+        }
 
         roundCount++;
+        String[][] field = new String [boardCols][boardRows];
+        for (int i=0; i < boardCols; i++) {
+            for (int j=0; j < boardRows; j++){
+                field[i][j] = buttons[i][j].getText().toString();
+            }
+        }
 
-        if (checkWinner()) {
+        if (winner.isGameWon(boardCols, boardRows,field)) {
             if(isPlayer1Next) {
                 winnerIsPlayer1();
             }
@@ -95,7 +118,7 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
                 winnerIsPlayer2();
             }
         }
-        else if (roundCount ==9 ){
+        else if (roundCount == 9 ){
             draw();
         }
         else {
@@ -103,55 +126,10 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
         }
         updateMessageText();
 //            wait(2000);
-//        if (!isPlayer1Next){
-//            buttons[0][1].setText("O");
+//        if (!isPlayer1Next) {
+//            System.out.println("Random   " +  rd.nextInt(boardCols) + "   Rows:  " +  rd.nextInt(boardRows));
+//            buttons[rd.nextInt(boardCols)][rd.nextInt(boardRows)].setText("O");
 //        }
-    }
-
-    // check winner
-    private boolean checkWinner() {
-        String[][] field = new String [boardCols][boardRows];
-
-        for (int i=0; i < boardCols; i++) {
-            for (int j=0; j < boardRows; j++){
-                field[i][j] = buttons[i][j].getText().toString();
-            }
-        }
-
-        // compare fields to eachother in columns
-        for (int i=0; i < boardCols; i++) {
-            if (field[i][0].equals(field[i][1])
-                    && field[i][0].equals(field[i][2])
-                    && !field[i][0].equals("")) {
-                return true;
-            }
-        }
-
-        // compare fields to eachother in rows
-        for (int i=0; i < boardRows; i++) {
-//            for(int j=0; j < i; j++) {
-            if (field[0][i].equals(field[1][i])
-                    && field[0][i].equals(field[2][i])
-                    && !field[0][i].equals("")) {
-                return true;
-            }
-//            }
-        }
-
-        // Compare diogonal
-        if (field[0][0].equals(field[1][1])
-                && field[0][0].equals(field[2][2])
-                && !field[0][0].equals("")) {
-            return true;
-        }
-
-        // Compare diogonal
-        if (field[0][2].equals(field[1][1])
-                && field[0][2].equals(field[2][0])
-                && !field[0][2].equals("")) {
-            return true;
-        }
-        return false;
     }
 
     private void winnerIsPlayer1() {

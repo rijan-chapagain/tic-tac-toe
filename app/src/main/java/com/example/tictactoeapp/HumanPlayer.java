@@ -1,5 +1,6 @@
 package com.example.tictactoeapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HumanPlayer extends AppCompatActivity implements View.OnClickListener {
-    private Button human_back_button;
+    private Button back_button;
     private int boardCols = 3;
     private int boardRows = boardCols;
     private Button[][] buttons = new Button[boardCols][boardRows];
@@ -25,14 +26,16 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
 
+    CheckWinner winner = new CheckWinner();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_human_player);
 
         // back to home button handler
-        human_back_button = (Button) findViewById(R.id.human_back_button);
-        human_back_button.setOnClickListener(new View.OnClickListener() {
+        back_button = (Button) findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 backToHome();
@@ -84,7 +87,14 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
 
         roundCount++;
 
-        if (checkWinner()) {
+        String[][] field = new String [boardCols][boardRows];
+        for (int i=0; i < boardCols; i++) {
+            for (int j=0; j < boardRows; j++){
+                field[i][j] = buttons[i][j].getText().toString();
+            }
+        }
+
+        if (winner.isGameWon(boardCols, boardRows, field)) {
             if(isPlayer1Next) {
                 winnerIsPlayer1();
             }
@@ -92,63 +102,13 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
                 winnerIsPlayer2();
             }
         }
-        else if (roundCount ==9 ){
+        else if (roundCount == boardCols * boardRows ){
             draw();
         }
         else {
             isPlayer1Next = !isPlayer1Next;
         }
         updateMessageText();
-//            wait(2000);
-//        if (!isPlayer1Next){
-//            buttons[0][1].setText("O");
-//        }
-    }
-
-    // check winner
-    private boolean checkWinner() {
-        String[][] field = new String [boardCols][boardRows];
-
-        for (int i=0; i < boardCols; i++) {
-            for (int j=0; j < boardRows; j++){
-                field[i][j] = buttons[i][j].getText().toString();
-            }
-        }
-
-        // compare fields to eachother in columns
-        for (int i=0; i < boardCols; i++) {
-            if (field[i][0].equals(field[i][1])
-                    && field[i][0].equals(field[i][2])
-                    && !field[i][0].equals("")) {
-                return true;
-            }
-        }
-
-        // compare fields to eachother in rows
-        for (int i=0; i < boardRows; i++) {
-//            for(int j=0; j < i; j++) {
-            if (field[0][i].equals(field[1][i])
-                    && field[0][i].equals(field[2][i])
-                    && !field[0][i].equals("")) {
-                return true;
-            }
-//            }
-        }
-
-        // Compare diogonal
-        if (field[0][0].equals(field[1][1])
-                && field[0][0].equals(field[2][2])
-                && !field[0][0].equals("")) {
-            return true;
-        }
-
-        // Compare diogonal
-        if (field[0][2].equals(field[1][1])
-                && field[0][2].equals(field[2][0])
-                && !field[0][2].equals("")) {
-            return true;
-        }
-        return false;
     }
 
     private void winnerIsPlayer1() {
@@ -179,7 +139,7 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         textViewPlayer2.setText("Player 2: " + player2Points);
     }
 
-    private void resetBoard() {
+    protected void resetBoard() {
         for (int i=0; i < boardCols; i++) {
             for (int j=0; j < boardRows; j++) {
                 buttons[i][j].setText("");
@@ -195,11 +155,33 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         resetBoard();
     }
 
-    private void resetGame() {
+    protected void resetGame() {
         player1Points = 0;
         player2Points = 0;
         updatePointsTable();
         resetBoard();
         updateMessageText();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("roundCount", 0);
+        outState.putInt("player1Points", 0);
+        outState.putInt("player2Points", 0);
+        outState.putInt("boardCols", boardCols=5);
+        outState.putBoolean("player1Turn", isPlayer1Next);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        roundCount = savedInstanceState.getInt("roundCount");
+        player1Points = savedInstanceState.getInt("player1Points");
+        player2Points = savedInstanceState.getInt("player2Points");
+        boardCols = savedInstanceState.getInt("boardCols");
+        isPlayer1Next = savedInstanceState.getBoolean("player1Turn");
     }
 }

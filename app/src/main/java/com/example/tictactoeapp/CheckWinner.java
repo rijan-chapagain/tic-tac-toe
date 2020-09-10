@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 public class CheckWinner extends AppCompatActivity {
-    // check winner
+
     protected boolean isGameWon(int boardCols, int boardRows, String [][] field) {
         if(boardCols == 3){
             // compare fields to eachother in columns

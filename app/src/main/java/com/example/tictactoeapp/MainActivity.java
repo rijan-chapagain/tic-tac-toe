@@ -1,5 +1,6 @@
 package com.example.tictactoeapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,6 +11,12 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     private Button playWithComputer;
     private Button playWithHuman;
+
+    private int boardCols = 3;
+    private int boardRows = boardCols;
+    private Button[][] buttons = new Button[boardCols][boardRows];
+
+    HumanPlayer human = new HumanPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
                 openHumanPlayer();
             }
         });
+
+//        if(savedInstanceState != null){
+//
+//        }
     }
 
     public void openComputerPlayer(){
@@ -43,4 +54,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HumanPlayer.class);
         startActivity(intent);
     }
+
+
 }
