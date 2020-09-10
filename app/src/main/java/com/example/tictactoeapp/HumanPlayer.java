@@ -15,7 +15,7 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
     private int boardRows = boardCols;
     private Button[][] buttons = new Button[boardCols][boardRows];
 
-    private boolean player1Turn = true;
+    private boolean isPlayer1Next = true;
     private int player1Points;
     private int player2Points;
 
@@ -70,24 +70,22 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if (!((Button) view).getText().toString().equals("")) {
+            Toast.makeText(this, "Already Filled!", Toast.LENGTH_SHORT).show();
+
             return;
         }
-//        game.checkClickedField(view);
-//        game.setPlayersTurn(view);
-        // set players turns
-        if (player1Turn) {
-            updateMessageText();
+
+        if (isPlayer1Next) {
             ((Button) view).setText("X");
         }
         else {
-            updateMessageText();
             ((Button) view).setText("O");
         }
 
         roundCount++;
 
         if (checkWinner()) {
-            if(player1Turn) {
+            if(isPlayer1Next) {
                 winnerIsPlayer1();
             }
             else {
@@ -98,8 +96,13 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
             draw();
         }
         else {
-            player1Turn = !player1Turn;
+            isPlayer1Next = !isPlayer1Next;
         }
+        updateMessageText();
+//            wait(2000);
+//        if (!isPlayer1Next){
+//            buttons[0][1].setText("O");
+//        }
     }
 
     // check winner
@@ -163,11 +166,11 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
     }
 
     private void updateMessageText() {
-        if (player1Turn == true) {
-            textViewStatus.setText("Current Status: Player1's Turn [X]");
+        if (isPlayer1Next == true) {
+            textViewStatus.setText("Next Turn: Player1's Turn [X]");
         }
         else {
-            textViewStatus.setText("Current Status: Player2's Turn [O]");
+            textViewStatus.setText("Next Turn: Player2's Turn [O]");
         }
     }
 
@@ -184,8 +187,7 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         }
 
         roundCount = 0;
-        player1Turn = true;
-        updateMessageText();
+        isPlayer1Next = true;
     }
 
     private void draw() {
@@ -198,5 +200,6 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         player2Points = 0;
         updatePointsTable();
         resetBoard();
+        updateMessageText();
     }
 }
