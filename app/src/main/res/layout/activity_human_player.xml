@@ -15,7 +15,7 @@
             android:id="@+id/text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:freezesText="true"
+
             android:text="welcome to human player"
             android:textSize="30sp" />
 
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view"
-            android:freezesText="true"
+
             android:text="Next Turn: Player1's Turn [X]"
             android:textSize="20sp" />
 
@@ -33,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_status"
-            android:freezesText="true"
             android:text="Player 1: 0"
             android:textSize="20sp" />
 
@@ -42,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_p1"
-            android:freezesText="true"
             android:text="Player 2: 0"
             android:textSize="20sp" />
 
@@ -56,7 +54,7 @@
             android:text="reset" />
 
         <Button
-            android:id="@+id/human_back_button"
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/button_reset"
@@ -78,7 +76,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
 
         <Button
             android:id="@+id/button_01"
@@ -86,7 +84,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
 
         <Button
             android:id="@+id/button_02"
@@ -94,7 +92,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -108,7 +106,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
 
         <Button
             android:id="@+id/button_11"
@@ -116,7 +114,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
 
         <Button
             android:id="@+id/button_12"
@@ -124,7 +122,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -137,7 +135,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
 
         <Button
             android:id="@+id/button_21"
@@ -145,7 +143,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
 
         <Button
             android:id="@+id/button_22"
@@ -153,7 +151,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:freezesText="true"/>
+            />
 
     </LinearLayout>
 
