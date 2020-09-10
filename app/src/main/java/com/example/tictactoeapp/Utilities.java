@@ -12,23 +12,23 @@ public class Utilities {
 
     }
 
-   protected String ramdomIndex(int boardCols, int boardRows, boolean availableCells[][], ){
+   public int[] ramdomIndex(int boardCols, int boardRows, boolean availableCells[][] ){
         randIndex[0] = rd.nextInt(boardCols);
-    randIndex[1] = rd.nextInt(boardRows);
+        randIndex[1] = rd.nextInt(boardRows);
 
-            do {
-        System.out.println(randIndex[0] +" " + randIndex[1]);
-        System.out.println((availableCells[randIndex[0]][randIndex[1]]));
+        do {
+            System.out.println(randIndex[0] +" " + randIndex[1]);
+            System.out.println((availableCells[randIndex[0]][randIndex[1]]));
 
-        if (availableCells[randIndex[0]][randIndex[1]]) {
-            return (randIndex[0] + "|"+ randIndex[1]);
-
-            break;
-        } else {
-            randIndex[0] = rd.nextInt(boardCols);
-            randIndex[1] = rd.nextInt(boardRows);
-        }
-    } while (true);}
+            if (availableCells[randIndex[0]][randIndex[1]]) {
+                int[] arr={randIndex[0],randIndex[1]};
+                return arr;
+            } else {
+                randIndex[0] = rd.nextInt(boardCols);
+                randIndex[1] = rd.nextInt(boardRows);
+            }
+        } while (true);
+    }
 
 
 }
