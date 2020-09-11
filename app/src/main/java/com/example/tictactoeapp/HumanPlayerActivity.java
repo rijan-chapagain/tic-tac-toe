@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HumanPlayer extends AppCompatActivity implements View.OnClickListener {
+public class HumanPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button back_button;
 
     private int orientation = 2;
@@ -36,7 +36,6 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_human_player);
 
-        orientation = getResources().getConfiguration().orientation;
 //        if()
 
         // back to home button handler
@@ -193,6 +192,5 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
             outState.putInt("player2Points", player2Points );
             outState.putInt("roundCount", roundCount );
             outState.putBoolean("isPlayer1Next", isPlayer1Next);
-
     }
 }
