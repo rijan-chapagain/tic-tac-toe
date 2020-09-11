@@ -7,7 +7,6 @@ public class Utilities {
     private int randIndex[] = new int[2];
     Random rd = new Random();
 
-
     Utilities(){
 
     }
@@ -18,8 +17,6 @@ public class Utilities {
 
         do {
             System.out.println(randIndex[0] +" " + randIndex[1]);
-            System.out.println((availableCells[randIndex[0]][randIndex[1]]));
-
             if (availableCells[randIndex[0]][randIndex[1]]) {
                 int[] arr={randIndex[0],randIndex[1]};
                 return arr;

@@ -98,10 +98,6 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
         if (isPlayer1Next) {
             ((Button) view).setText("X");
         }
-        else {
-            int[] arr = util.ramdomIndex(boardCols, boardRows, availableCells);
-            buttons[arr[0]][arr[1]].setText("O");
-        }
 
         roundCount++;
         String[][] field = new String [boardCols][boardRows];
@@ -124,8 +120,15 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
         }
         else {
             isPlayer1Next = !isPlayer1Next;
+
         }
         updateMessageText();
+    }
+
+    private void computerMove(){
+        int[] arr = util.ramdomIndex(boardCols, boardRows, availableCells);
+        buttons[arr[0]][arr[1]].setText("O");
+        isPlayer1Next = true;
     }
 
     private void winnerIsPlayer1() {
@@ -147,7 +150,9 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
             textViewStatus.setText("Next Turn: Player1's Turn [X]");
         }
         else {
-            textViewStatus.setText("Next Turn: Player2's Turn [O]");
+//            textViewStatus.setText("Next Turn: Player2's Turn [O]");
+            checkAvailableCells();
+            computerMove();
         }
     }
 
