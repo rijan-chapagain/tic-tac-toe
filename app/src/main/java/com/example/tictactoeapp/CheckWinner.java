@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class CheckWinner extends AppCompatActivity {
+public class CheckWinner {
 
     protected boolean isGameWon(int boardCols, int boardRows, String [][] field) {
         System.out.println(boardRows);

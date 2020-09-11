@@ -12,12 +12,6 @@ public class MainActivity extends AppCompatActivity {
     private Button playWithComputer;
     private Button playWithHuman;
 
-    private int boardCols = 3;
-    private int boardRows = boardCols;
-    private Button[][] buttons = new Button[boardCols][boardRows];
-
-    HumanPlayer human = new HumanPlayer();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +33,16 @@ public class MainActivity extends AppCompatActivity {
                 openHumanPlayer();
             }
         });
-
-//        if(savedInstanceState != null){
-//
-//        }
     }
 
     public void openComputerPlayer(){
-        Intent intent = new Intent(this, ComputerPlayer.class);
+        Intent intent = new Intent(this, ComputerPlayerActivity.class);
         startActivity(intent);
     }
 
     public void openHumanPlayer(){
-        Intent intent = new Intent(this, HumanPlayer.class);
+        Intent intent = new Intent(this, HumanPlayerActivity.class);
         startActivity(intent);
     }
-
 
 }
