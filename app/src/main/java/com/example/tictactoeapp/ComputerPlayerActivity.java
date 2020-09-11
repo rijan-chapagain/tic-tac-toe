@@ -71,6 +71,39 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         });
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Toast.makeText(getApplicationContext(),"Now onStart() calls", Toast.LENGTH_LONG).show();
+
+        //Orientation goes here
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
+
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(getApplicationContext(), "onDestroy called", Toast.LENGTH_LONG).show();
+    }
+
+
     public void checkAvailableCells(){
         for (int i=0; i < boardCols; i++){
             for (int j=0; j < boardRows; j++) {
