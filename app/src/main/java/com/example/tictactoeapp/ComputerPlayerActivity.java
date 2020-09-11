@@ -14,7 +14,8 @@ import java.util.Random;
 
 public class ComputerPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button back_button;
-    private int boardCols = 3;
+
+    private int boardCols = 5;
     private int boardRows = boardCols;
     private Button[][] buttons = new Button[boardCols][boardRows];
 
@@ -52,15 +53,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         textViewPlayer1 = findViewById(R.id.text_view_p1);
         textViewPlayer2 = findViewById(R.id.text_view_p2);
 
-        for (int i=0; i < boardCols; i++){
-            for (int j=0; j < boardRows; j++){
-                String buttonID = "button_" + i + j;
-                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
-                buttons[i][j] = findViewById(resID);
-                buttons[i][j].setOnClickListener(this);
-            }
-        }
-        checkAvailableCells();
+        allowToClick(boardCols, boardRows);
 
         Button buttonReset = findViewById(R.id.button_reset);
         buttonReset.setOnClickListener(new View.OnClickListener() {
@@ -78,43 +71,72 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         Toast.makeText(getApplicationContext(),"Now onStart() calls", Toast.LENGTH_LONG).show();
 
         //Orientation goes here
+        int orientation = getResources().getConfiguration().orientation;
+        System.out.println("Device orientation is:  "+orientation);
+        Toast.makeText(getApplicationContext(),"Orientation is:  " + orientation, Toast.LENGTH_LONG).show();
+
+        // orientation 2 is landscape
+        if(orientation == 2)
+        {
+            boardCols = 5;
+            boardRows = 5;
+            System.out.println("Orientation is landscape and col is 5");
+        }
+        else
+        {
+            boardCols = 3;
+            boardRows = 3;
+        }
+        allowToClick(boardCols, boardRows);
+        checkAvailableCells();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
-
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
         Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(getApplicationContext(), "onDestroy called", Toast.LENGTH_LONG).show();
-    }
+    public void allowToClick(int boardCols, int boardRows){
+        System.out.println(boardCols+"   cols  Rows "+boardRows);
 
-
-    public void checkAvailableCells(){
         for (int i=0; i < boardCols; i++){
-            for (int j=0; j < boardRows; j++) {
-                if ((buttons[i][j].getText().toString().isEmpty())) {
-                    availableCells[i][j] = true;
-                } else {
-                    availableCells[i][j] = false;
-                }
+            for (int j=0; j < boardRows; j++){
+                String buttonID = "button_" + i + j;
+                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
+//                System.out.println(i+" "+j);
+                buttons[i][j] = findViewById(resID);
+                buttons[i][j].setOnClickListener(this);
             }
         }
     }
+
+    public void checkAvailableCells(){
+         if (roundCount != (boardCols * boardRows)-1) {
+             for (int i = 0; i < boardCols; i++) {
+                 for (int j = 0; j < boardRows; j++) {
+                     if ((buttons[i][j].getText().toString().isEmpty())) {
+                         availableCells[i][j] = true;
+                     } else {
+                         availableCells[i][j] = false;
+                     }
+                 }
+             }
+         }
+    }
+
     public void backToHome() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -148,7 +170,8 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
             }
         }
 
-        if (winner.isGameWon(boardCols, boardRows,field)) {
+        if (winner.isGameWon(boardCols, boardRows,field))
+        {
             if(isPlayer1Next) {
                 winnerIsPlayer1();
             }
@@ -156,7 +179,8 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
                 winnerIsPlayer2();
             }
         }
-        else if (roundCount == 9 ){
+        else if (roundCount == boardCols * boardRows )
+        {
             draw();
         }
         else {
@@ -171,6 +195,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         checkAvailableCells();
         int[] arr = util.ramdomIndex(boardCols, boardRows, availableCells);
         buttons[arr[0]][arr[1]].setText("O");
+        roundCount++;
         checkWin();
         isPlayer1Next = true;
 
