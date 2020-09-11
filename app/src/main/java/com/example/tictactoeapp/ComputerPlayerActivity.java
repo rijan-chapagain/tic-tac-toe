@@ -1,9 +1,7 @@
 package com.example.tictactoeapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HumanPlayer extends AppCompatActivity implements View.OnClickListener {
-    private Button back_button;
+import java.util.Random;
 
-    private int orientation = 2;
+public class ComputerPlayer extends AppCompatActivity implements View.OnClickListener {
+    private Button back_button;
     private int boardCols = 3;
     private int boardRows = boardCols;
     private Button[][] buttons = new Button[boardCols][boardRows];
@@ -29,15 +27,15 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
 
+    private boolean availableCells[][] = new boolean[boardCols][boardCols];
+
     Utilities util = new Utilities();
     CheckWinner winner = new CheckWinner();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_human_player);
-
-        orientation = getResources().getConfiguration().orientation;
+        setContentView(R.layout.activity_computer_player);
 
         // back to home button handler
         back_button = (Button) findViewById(R.id.back_button);
@@ -53,7 +51,15 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
         textViewPlayer1 = findViewById(R.id.text_view_p1);
         textViewPlayer2 = findViewById(R.id.text_view_p2);
 
-        allowToClick(boardCols, boardRows);
+        for (int i=0; i < boardCols; i++){
+            for (int j=0; j < boardRows; j++){
+                String buttonID = "button_" + i + j;
+                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
+                buttons[i][j] = findViewById(resID);
+                buttons[i][j].setOnClickListener(this);
+            }
+        }
+        checkAvailableCells();
 
         Button buttonReset = findViewById(R.id.button_reset);
         buttonReset.setOnClickListener(new View.OnClickListener() {
@@ -62,26 +68,19 @@ public class HumanPlayer extends AppCompatActivity implements View.OnClickListen
                 resetGame();
             }
         });
-
-    if (savedInstanceState != null)
-    {
-        boardCols = savedInstanceState.getInt("boardCols");
-        boardRows = savedInstanceState.getInt("boardRows");
-    }
     }
 
-    public void allowToClick(int boardCols, int boardRows){
+    public void checkAvailableCells(){
         for (int i=0; i < boardCols; i++){
-            for (int j=0; j < boardRows; j++){
-                String buttonID = "button_" + i + j;
-                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
-System.out.println(i+" "+j);
-                buttons[i][j] = findViewById(resID);
-                buttons[i][j].setOnClickListener(this);
+            for (int j=0; j < boardRows; j++) {
+                if ((buttons[i][j].getText().toString().isEmpty())) {
+                    availableCells[i][j] = true;
+                } else {
+                    availableCells[i][j] = false;
+                }
             }
         }
     }
-
     public void backToHome() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -89,32 +88,33 @@ System.out.println(i+" "+j);
 
     @Override
     public void onClick(View view) {
+
         if (!((Button) view).getText().toString().equals("")) {
             Toast.makeText(this, "Already Filled!", Toast.LENGTH_SHORT).show();
-
             return;
         }
 
+        checkAvailableCells();
         if (isPlayer1Next) {
             ((Button) view).setText("X");
-        }
-        else {
-            ((Button) view).setText("O");
         }
 
         roundCount++;
 
+
+        checkWin();
+    }
+
+    private void checkWin(){
+
         String[][] field = new String [boardCols][boardRows];
-        System.out.println("Cols:  " + boardCols+ " Rows:  "+ boardRows);
-        allowToClick(boardCols, boardRows);
         for (int i=0; i < boardCols; i++) {
             for (int j=0; j < boardRows; j++){
-                System.out.println(i +"  ij  "+ j);
                 field[i][j] = buttons[i][j].getText().toString();
             }
         }
 
-        if (winner.isGameWon(boardCols, boardRows, field)) {
+        if (winner.isGameWon(boardCols, boardRows,field)) {
             if(isPlayer1Next) {
                 winnerIsPlayer1();
             }
@@ -122,13 +122,24 @@ System.out.println(i+" "+j);
                 winnerIsPlayer2();
             }
         }
-        else if (roundCount == boardCols * boardRows ){
+        else if (roundCount == 9 ){
             draw();
         }
         else {
             isPlayer1Next = !isPlayer1Next;
+
         }
         updateMessageText();
+    }
+
+
+    private void computerMove(){
+        checkAvailableCells();
+        int[] arr = util.ramdomIndex(boardCols, boardRows, availableCells);
+        buttons[arr[0]][arr[1]].setText("O");
+        checkWin();
+        isPlayer1Next = true;
+
     }
 
     private void winnerIsPlayer1() {
@@ -150,7 +161,9 @@ System.out.println(i+" "+j);
             textViewStatus.setText("Next Turn: Player1's Turn [X]");
         }
         else {
-            textViewStatus.setText("Next Turn: Player2's Turn [O]");
+//            textViewStatus.setText("Next Turn: Player2's Turn [O]");
+            checkAvailableCells();
+            computerMove();
         }
     }
 
@@ -159,7 +172,7 @@ System.out.println(i+" "+j);
         textViewPlayer2.setText("Player 2: " + player2Points);
     }
 
-    protected void resetBoard() {
+    private void resetBoard() {
         for (int i=0; i < boardCols; i++) {
             for (int j=0; j < boardRows; j++) {
                 buttons[i][j].setText("");
@@ -175,41 +188,11 @@ System.out.println(i+" "+j);
         resetBoard();
     }
 
-    protected void resetGame() {
+    private void resetGame() {
         player1Points = 0;
         player2Points = 0;
         updatePointsTable();
         resetBoard();
         updateMessageText();
     }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-
-        System.out.println("orientation:   "+orientation);
-//        allowToClick(boardCols, boardRows);
-
-        if(orientation == 2) {
-            outState.putInt("boardCols", boardCols = 3);
-            outState.putInt("boardRows", boardRows = 3);
-        }
-        else {
-            outState.putInt("boardCols", boardCols = 5);
-            outState.putInt("boardRows", boardRows = 5);
-        }
-    }
-
-//    @Override
-////    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-////        super.onRestoreInstanceState(savedInstanceState);
-////
-////        roundCount = savedInstanceState.getInt("roundCount");
-////        player1Points = savedInstanceState.getInt("player1Points");
-////        player2Points = savedInstanceState.getInt("player2Points");
-////        boardCols = savedInstanceState.getInt("boardCols");
-////        boardRows = savedInstanceState.getInt("boardRows");
-////        isPlayer1Next = savedInstanceState.getBoolean("player1Turn");
-////    }
 }
