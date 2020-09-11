@@ -1,5 +1,6 @@
 package com.example.tictactoeapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,7 +12,7 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class ComputerPlayer extends AppCompatActivity implements View.OnClickListener {
+public class ComputerPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button back_button;
     private int boardCols = 3;
     private int boardRows = boardCols;
@@ -194,5 +195,16 @@ public class ComputerPlayer extends AppCompatActivity implements View.OnClickLis
         updatePointsTable();
         resetBoard();
         updateMessageText();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("player1Points", player1Points );
+        outState.putInt("player2Points", player2Points );
+        outState.putInt("roundCount", roundCount );
+        outState.putBoolean("isPlayer1Next", isPlayer1Next);
+
     }
 }
