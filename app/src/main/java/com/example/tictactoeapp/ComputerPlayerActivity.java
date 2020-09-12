@@ -15,7 +15,7 @@ import java.util.Random;
 public class ComputerPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button back_button;
 
-    private int boardCols = 5;
+    private int boardCols = 3;
     private int boardRows = boardCols;
     private Button[][] buttons = new Button[boardCols][boardRows];
 
@@ -86,9 +86,13 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         {
             boardCols = 3;
             boardRows = 3;
+            System.out.println("Orientation is landscape and col is 3");
         }
+
+        buttons = new Button[boardCols][boardRows];
+        availableCells = new boolean[boardCols][boardCols];
         allowToClick(boardCols, boardRows);
-        checkAvailableCells();
+        checkAvailableCells(boardCols, boardRows);
     }
 
     @Override
@@ -110,23 +114,25 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
     }
 
     public void allowToClick(int boardCols, int boardRows){
-        System.out.println(boardCols+"   cols  Rows "+boardRows);
 
         for (int i=0; i < boardCols; i++){
             for (int j=0; j < boardRows; j++){
                 String buttonID = "button_" + i + j;
                 int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
-//                System.out.println(i+" "+j);
                 buttons[i][j] = findViewById(resID);
                 buttons[i][j].setOnClickListener(this);
             }
         }
     }
 
-    public void checkAvailableCells(){
+    public void checkAvailableCells(int boardCols, int boardRows){
          if (roundCount != (boardCols * boardRows)-1) {
+             System.out.println(boardCols+"   cols  Rows "+boardRows);
+
              for (int i = 0; i < boardCols; i++) {
                  for (int j = 0; j < boardRows; j++) {
+                     System.out.println(i+" "+j);
+
                      if ((buttons[i][j].getText().toString().isEmpty())) {
                          availableCells[i][j] = true;
                      } else {
@@ -150,7 +156,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
             return;
         }
 
-        checkAvailableCells();
+        checkAvailableCells(boardCols, boardRows);
         if (isPlayer1Next) {
             ((Button) view).setText("X");
         }
@@ -192,7 +198,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
 
 
     private void computerMove(){
-        checkAvailableCells();
+        checkAvailableCells(boardCols, boardRows);
         int[] arr = util.ramdomIndex(boardCols, boardRows, availableCells);
         buttons[arr[0]][arr[1]].setText("O");
         roundCount++;
@@ -221,7 +227,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         }
         else {
 //            textViewStatus.setText("Next Turn: Player2's Turn [O]");
-            checkAvailableCells();
+            checkAvailableCells(boardCols, boardRows);
             computerMove();
         }
     }
