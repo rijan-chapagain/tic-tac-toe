@@ -62,11 +62,38 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-    if (savedInstanceState != null)
-    {
-        boardCols = savedInstanceState.getInt("boardCols");
-        boardRows = savedInstanceState.getInt("boardRows");
+        if (savedInstanceState != null)
+        {
+            boardCols = savedInstanceState.getInt("boardCols");
+            boardRows = savedInstanceState.getInt("boardRows");
+        }
     }
+
+    protected void onStart()
+    {
+        super.onStart();
+        Toast.makeText(getApplicationContext(),"Now onStart() calls", Toast.LENGTH_LONG).show();
+
+        int orientation = getResources().getConfiguration().orientation;
+        System.out.println("Device orientation is:  "+orientation);
+        Toast.makeText(getApplicationContext(),"Orientation is:  " + orientation, Toast.LENGTH_LONG).show();
+
+        // orientation 2 is landscape
+        if(orientation == 2)
+        {
+            boardCols = 5;
+            boardRows = 5;
+            System.out.println("Orientation is landscape and col is 5");
+        }
+        else
+        {
+            boardCols = 3;
+            boardRows = 3;
+            System.out.println("Orientation is landscape and col is 3");
+        }
+
+        buttons = new Button[boardCols][boardRows];
+        allowToClick(boardCols, boardRows);
     }
 
     public void allowToClick(int boardCols, int boardRows){
