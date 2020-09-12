@@ -33,6 +33,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
 
     Utilities util = new Utilities();
     CheckWinner winner = new CheckWinner();
+    HandleActivity handle = new HandleActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         textViewPlayer1 = findViewById(R.id.text_view_p1);
         textViewPlayer2 = findViewById(R.id.text_view_p2);
 
-        allowToClick(boardCols, boardRows);
+        handle.allowToClick(boardCols, boardRows);
 
         Button buttonReset = findViewById(R.id.button_reset);
         buttonReset.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +71,6 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         super.onStart();
         Toast.makeText(getApplicationContext(),"Now onStart() calls", Toast.LENGTH_LONG).show();
 
-        //Orientation goes here
         int orientation = getResources().getConfiguration().orientation;
         System.out.println("Device orientation is:  "+orientation);
         Toast.makeText(getApplicationContext(),"Orientation is:  " + orientation, Toast.LENGTH_LONG).show();
@@ -91,7 +91,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
 
         buttons = new Button[boardCols][boardRows];
         availableCells = new boolean[boardCols][boardCols];
-        allowToClick(boardCols, boardRows);
+        handle.allowToClick(boardCols, boardRows);
         checkAvailableCells(boardCols, boardRows);
     }
 
@@ -162,8 +162,6 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         }
 
         roundCount++;
-
-
         checkWin();
     }
 
@@ -204,7 +202,6 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         roundCount++;
         checkWin();
         isPlayer1Next = true;
-
     }
 
     private void winnerIsPlayer1() {
@@ -269,6 +266,5 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         outState.putInt("player2Points", player2Points );
         outState.putInt("roundCount", roundCount );
         outState.putBoolean("isPlayer1Next", isPlayer1Next);
-
     }
 }

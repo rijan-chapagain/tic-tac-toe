@@ -14,7 +14,6 @@ import android.widget.Toast;
 public class HumanPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button back_button;
 
-    private int orientation = 2;
     private int boardCols = 3;
     private int boardRows = boardCols;
     private Button[][] buttons = new Button[boardCols][boardRows];
@@ -29,14 +28,12 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
 
-    CheckWinner winner = new CheckWinner();
+     CheckWinner winner = new CheckWinner();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_human_player);
-
-//        if()
 
         // back to home button handler
         back_button = (Button) findViewById(R.id.back_button);
@@ -62,11 +59,6 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-        if (savedInstanceState != null)
-        {
-            boardCols = savedInstanceState.getInt("boardCols");
-            boardRows = savedInstanceState.getInt("boardRows");
-        }
     }
 
     protected void onStart()
@@ -96,6 +88,24 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
         allowToClick(boardCols, boardRows);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
+    }
+
     public void allowToClick(int boardCols, int boardRows){
         System.out.println(boardCols+"   cols  Rows "+boardRows);
 
@@ -119,7 +129,6 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         if (!((Button) view).getText().toString().equals("")) {
             Toast.makeText(this, "Already Filled!", Toast.LENGTH_SHORT).show();
-
             return;
         }
 
@@ -215,9 +224,9 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-            outState.putInt("player1Points", player1Points );
-            outState.putInt("player2Points", player2Points );
-            outState.putInt("roundCount", roundCount );
-            outState.putBoolean("isPlayer1Next", isPlayer1Next);
+        outState.putInt("player1Points", player1Points );
+        outState.putInt("player2Points", player2Points );
+        outState.putInt("roundCount", roundCount );
+        outState.putBoolean("isPlayer1Next", isPlayer1Next);
     }
 }

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Welcome home"
         android:textSize="35sp"
-        android:freezesText="true"/>
+        />
 
     <Button
         android:id="@+id/playWithComputer"

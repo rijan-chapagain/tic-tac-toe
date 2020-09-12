@@ -23,24 +23,24 @@ public class MainActivity extends AppCompatActivity {
         playWithComputer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openComputerPlayer();
+                openComputerPlayerActivity();
             }
         });
 
         playWithHuman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openHumanPlayer();
+                openHumanPlayerActivity();
             }
         });
     }
 
-    public void openComputerPlayer(){
+    public void openComputerPlayerActivity(){
         Intent intent = new Intent(this, ComputerPlayerActivity.class);
         startActivity(intent);
     }
 
-    public void openHumanPlayer(){
+    public void openHumanPlayerActivity(){
         Intent intent = new Intent(this, HumanPlayerActivity.class);
         startActivity(intent);
     }
