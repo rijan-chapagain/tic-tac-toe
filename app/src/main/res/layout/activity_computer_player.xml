@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="welcome to computer player"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:freezesText="true"/>
 
         <TextView
             android:id="@+id/text_view_status"
@@ -24,16 +25,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view"
             android:text="Next Turn: Player1's Turn [X]"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:freezesText="true"/>
 
         <TextView
             android:id="@+id/text_view_p1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_status"
-            
             android:text="Player 1: 0"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:freezesText="true"/>
 
         <TextView
             android:id="@+id/text_view_p2"
@@ -41,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_p1"
             android:text="Player 2: 0"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:freezesText="true"/>
 
         <Button
             android:id="@+id/button_reset"
