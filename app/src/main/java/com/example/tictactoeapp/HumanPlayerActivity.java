@@ -29,6 +29,7 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
     private TextView textViewPlayer2;
 
      CheckWinner winner = new CheckWinner();
+     ComputerPlayerActivity computer = new ComputerPlayerActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,23 +89,23 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
         allowToClick(boardCols, boardRows);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
+//    }
 
     public void allowToClick(int boardCols, int boardRows){
         System.out.println(boardCols+"   cols  Rows "+boardRows);
@@ -134,24 +135,25 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
 
         if (isPlayer1Next) {
             ((Button) view).setText("X");
-        }
-        else {
+        } else {
             ((Button) view).setText("O");
         }
 
         roundCount++;
+        checkWin();
+    }
 
+    private void checkWin(){
         String[][] field = new String [boardCols][boardRows];
-        System.out.println("Cols:  " + boardCols+ " Rows:  "+ boardRows);
-        allowToClick(boardCols, boardRows);
+
         for (int i=0; i < boardCols; i++) {
             for (int j=0; j < boardRows; j++){
-                System.out.println(i +"  ij  "+ j);
                 field[i][j] = buttons[i][j].getText().toString();
             }
         }
 
-        if (winner.isGameWon(boardCols, boardRows, field)) {
+        if (winner.isGameWon(boardCols, boardRows,field))
+        {
             if(isPlayer1Next) {
                 winnerIsPlayer1();
             }
@@ -159,11 +161,13 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
                 winnerIsPlayer2();
             }
         }
-        else if (roundCount == boardCols * boardRows ){
+        else if (roundCount == boardCols * boardRows )
+        {
             draw();
         }
         else {
             isPlayer1Next = !isPlayer1Next;
+
         }
         updateMessageText();
     }
@@ -207,7 +211,7 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
         isPlayer1Next = true;
     }
 
-    private void draw() {
+    public void draw() {
         Toast.makeText(this, "Draw!", Toast.LENGTH_SHORT).show();
         resetBoard();
     }

@@ -7,10 +7,6 @@ public class Utilities {
     private int randIndex[] = new int[2];
     Random rd = new Random();
 
-    Utilities(){
-
-    }
-
    public int[] ramdomIndex(int boardCols, int boardRows, boolean availableCells[][] ){
         randIndex[0] = rd.nextInt(boardCols);
         randIndex[1] = rd.nextInt(boardRows);
@@ -26,6 +22,4 @@ public class Utilities {
             }
         } while (true);
     }
-
-
 }

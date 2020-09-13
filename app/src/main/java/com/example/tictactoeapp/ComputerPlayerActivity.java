@@ -33,7 +33,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
 
     Utilities util = new Utilities();
     CheckWinner winner = new CheckWinner();
-    HandleActivity handle = new HandleActivity();
+//    HandleActivity handle = new HandleActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         textViewPlayer1 = findViewById(R.id.text_view_p1);
         textViewPlayer2 = findViewById(R.id.text_view_p2);
 
-        handle.allowToClick(boardCols, boardRows);
+        allowToClick(boardCols, boardRows);
 
         Button buttonReset = findViewById(R.id.button_reset);
         buttonReset.setOnClickListener(new View.OnClickListener() {
@@ -91,27 +91,27 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
 
         buttons = new Button[boardCols][boardRows];
         availableCells = new boolean[boardCols][boardCols];
-        handle.allowToClick(boardCols, boardRows);
+        allowToClick(boardCols, boardRows);
         checkAvailableCells(boardCols, boardRows);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
-    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
+//    }
 
     public void allowToClick(int boardCols, int boardRows){
 
@@ -166,8 +166,8 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
     }
 
     private void checkWin(){
-
         String[][] field = new String [boardCols][boardRows];
+
         for (int i=0; i < boardCols; i++) {
             for (int j=0; j < boardRows; j++){
                 field[i][j] = buttons[i][j].getText().toString();
@@ -223,7 +223,6 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
             textViewStatus.setText("Next Turn: Player1's Turn [X]");
         }
         else {
-//            textViewStatus.setText("Next Turn: Player2's Turn [O]");
             checkAvailableCells(boardCols, boardRows);
             computerMove();
         }
