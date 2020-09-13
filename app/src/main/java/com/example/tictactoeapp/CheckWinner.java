@@ -7,9 +7,7 @@ import android.widget.Button;
 
 public class CheckWinner {
 
-    protected boolean isGameWon(int boardCols, int boardRows, String [][] field) {
-        System.out.println(boardRows);
-
+    protected boolean isGameWon(int boardCols, int boardRows, String[][] field) {
         if(boardCols == 3 && boardRows == 3){
             System.out.println(boardRows);
             // compare fields to eachother in columns

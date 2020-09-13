@@ -10,14 +10,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Random;
-
 public class ComputerPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button back_button;
 
     private int boardCols = 3;
     private int boardRows = boardCols;
     private Button[][] buttons = new Button[boardCols][boardRows];
+    private boolean availableCells[][] = new boolean[boardCols][boardCols];
 
     private boolean isPlayer1Next = true;
     private int player1Points;
@@ -29,11 +28,9 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
 
-    private boolean availableCells[][] = new boolean[boardCols][boardCols];
 
     Utilities util = new Utilities();
     CheckWinner winner = new CheckWinner();
-//    HandleActivity handle = new HandleActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,26 +91,8 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         allowToClick(boardCols, boardRows);
         checkAvailableCells(boardCols, boardRows);
     }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
-//    }
 
-    public void allowToClick(int boardCols, int boardRows){
+    private void allowToClick(int boardCols, int boardRows){
 
         for (int i=0; i < boardCols; i++){
             for (int j=0; j < boardRows; j++){
@@ -125,7 +104,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         }
     }
 
-    public void checkAvailableCells(int boardCols, int boardRows){
+    private void checkAvailableCells(int boardCols, int boardRows){
          if (roundCount != (boardCols * boardRows)-1) {
              System.out.println(boardCols+"   cols  Rows "+boardRows);
 
@@ -143,7 +122,7 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
          }
     }
 
-    public void backToHome() {
+    private void backToHome() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -193,7 +172,6 @@ public class ComputerPlayerActivity extends AppCompatActivity implements View.On
         }
         updateMessageText();
     }
-
 
     private void computerMove(){
         checkAvailableCells(boardCols, boardRows);

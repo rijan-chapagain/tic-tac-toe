@@ -29,7 +29,6 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
     private TextView textViewPlayer2;
 
      CheckWinner winner = new CheckWinner();
-     ComputerPlayerActivity computer = new ComputerPlayerActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,24 +87,6 @@ public class HumanPlayerActivity extends AppCompatActivity implements View.OnCli
         buttons = new Button[boardCols][boardRows];
         allowToClick(boardCols, boardRows);
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Toast.makeText(getApplicationContext(), "onResumed called", Toast.LENGTH_LONG).show();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        Toast.makeText(getApplicationContext(), "onPause called", Toast.LENGTH_LONG).show();
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
-//    }
 
     public void allowToClick(int boardCols, int boardRows){
         System.out.println(boardCols+"   cols  Rows "+boardRows);
